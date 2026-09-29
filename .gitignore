@@ -34,3 +34,7 @@ dist/
 # Local development/tool metadata
 AGENTS.md
 CLAUDE.md.figma/
+# Local development/tool metadata
+AGENTS.md
+CLAUDE.md
+.figma/
