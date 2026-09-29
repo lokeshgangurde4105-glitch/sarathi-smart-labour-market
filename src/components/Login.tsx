@@ -538,7 +538,7 @@ export default function Login({ onLogin }: LoginProps) {
               <strong style={{ color: backendStatus === "connected" ? "#10B981" : backendStatus === "checking" ? "#F59E0B" : "#EF4444" }}>
                 {backendStatus === "connected" ? "Backend Connected" : backendStatus === "checking" ? "Checking Backend..." : "Backend Unavailable"}
               </strong>{" "}
-              • Port: 8000
+              • API: <strong style={{ color: "#94A3B8" }}>{import.meta.env.PROD ? "Render Cloud API" : "Local Dev"}</strong>
             </span>
           </div>
           <div>SIH 26134 • National Skill Development Initiative</div>

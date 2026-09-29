@@ -7,7 +7,16 @@
  * Never attempts .json() and then .text() on the same Response object.
  */
 
-export const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
+const envApiUrl = (import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL || "").trim();
+
+// Production default: Render backend. Development default: empty string (for Vite proxy /api) or env url
+export const API_BASE_URL = (
+  envApiUrl && !envApiUrl.startsWith("/")
+    ? envApiUrl
+    : import.meta.env.PROD
+      ? "https://sarathi-smart-labour-market.onrender.com"
+      : envApiUrl
+).replace(/\/+$/, "");
 
 /**
  * Resolves an API endpoint path against the configured base URL (or relative proxy).
@@ -163,7 +172,7 @@ export function extractErrorMessage(parsed: ParsedResponse): string {
     case 500:
       return "Internal Server Error (500): The server encountered an unexpected error. Please check server logs.";
     case 502:
-      return "⚠️ Bad Gateway (502): The backend service is currently unreachable. Please check that FastAPI is running on port 8000.";
+      return "⚠️ Bad Gateway (502): The backend service is currently unreachable. Please verify your connection or check backend service status.";
     case 503:
       return "⚠️ Service Unavailable (503): Backend service is currently overloaded or starting up. Please try again in a moment.";
     case 504:
@@ -324,9 +333,9 @@ export async function apiClientFn<T>(
       }
     }
 
-    if (error.name === "TypeError" && error.message.includes("fetch")) {
+    if (error.name === "TypeError" && (error.message.includes("fetch") || error.message.includes("NetworkError") || error.message.includes("Failed to fetch"))) {
       throw new Error(
-        "Unable to connect to backend service. Please check that FastAPI server is running on port 8000."
+        "Unable to connect to backend service. Please check your network connection and verify backend service availability."
       );
     }
     throw error;
@@ -421,7 +430,7 @@ export async function checkBackendHealth(force = false): Promise<{
   activeHealthCheckPromise = (async () => {
     try {
       const res = await apiClientFn<{ status?: string; service?: string; database?: string; success?: boolean }>("/api/health", {
-        timeoutMs: 1800,
+        timeoutMs: 8000,
       });
       const isOk = res.status === "ok" || res.status === "healthy" || res.success === true;
       const result = {
