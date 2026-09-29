@@ -30,3 +30,7 @@ __pycache__/
 backend/*.db
 backend/*.db-*
 dist/
+
+# Local development/tool metadata
+AGENTS.md
+CLAUDE.md.figma/
