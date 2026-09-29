@@ -106,6 +106,10 @@ app = FastAPI(
 
 cors_origins_env = os.getenv("CORS_ORIGINS", "")
 allowed_origins = [
+    # Production Vercel Frontend
+    "https://sarathi-smart-labour-market-ashen.vercel.app",
+    "https://sarathi-smart-labour-market.vercel.app",
+    # Local Development
     "http://localhost:5174",
     "http://127.0.0.1:5174",
     "http://localhost:5175",
@@ -119,14 +123,17 @@ allowed_origins = [
 ]
 if cors_origins_env:
     for origin in cors_origins_env.split(","):
-        trimmed = origin.strip()
+        trimmed = origin.strip().rstrip("/")
         if trimmed and trimmed not in allowed_origins:
             allowed_origins.append(trimmed)
+
+# Also allow regex for localhost and any Vercel deployment preview under this project
+cors_origin_regex = r"https?://(localhost|127\.0\.0\.1)(:\d+)?|https://sarathi-smart-labour-market(-[a-zA-Z0-9_-]+)?\.vercel\.app"
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
-    allow_origin_regex=r"https?://(localhost|127\.0\.0\.1)(:\d+)?",
+    allow_origin_regex=cors_origin_regex,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
