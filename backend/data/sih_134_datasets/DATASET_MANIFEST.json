@@ -1,0 +1,47 @@
+{
+  "project": "SARATHI - SIH Problem Statement 26134",
+  "dataset_package": "SIH_134_datasets",
+  "note": "These files were supplied by the project team. This manifest records package contents; it does not independently verify dataset provenance.",
+  "files": [
+    {
+      "file": "Coursera_catalog.csv",
+      "format": "CSV",
+      "rows": 891
+    },
+    {
+      "file": "ai_job_market_dataset.csv",
+      "format": "CSV",
+      "rows": 1696
+    },
+    {
+      "file": "datacamp_courses.csv",
+      "format": "CSV",
+      "rows": 326
+    },
+    {
+      "file": "indian-job-market-dataset-2025 (1).xlsx",
+      "format": "Excel",
+      "rows": 97929,
+      "columns": 17
+    },
+    {
+      "file": "indian_job_market_2025.csv",
+      "format": "CSV",
+      "rows": 97929
+    },
+    {
+      "file": "job_recommendation_dataset.csv",
+      "format": "CSV",
+      "rows": 50000
+    },
+    {
+      "file": "most-in-demand-job-skills-of-2026-analysis.ipynb",
+      "format": "Jupyter Notebook"
+    },
+    {
+      "file": "skills_rows.csv",
+      "format": "CSV",
+      "rows": 2033
+    }
+  ]
+}

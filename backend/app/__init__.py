@@ -1,0 +1,1 @@
+"""SARATHI backend application package."""
